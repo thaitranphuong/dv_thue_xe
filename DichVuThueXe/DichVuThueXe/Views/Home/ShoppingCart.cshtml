@@ -1,0 +1,178 @@
+﻿@using DichVuThueXe.Models
+@{
+    ViewBag.Title = "ShoppingCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--Ajax Process-->
+
+
+<script>
+    function AddToCart(id) {
+        $.ajax({
+            type: 'POST', url: '/Home/AddToCart', data: { id: id }, success: function (data) {
+                $("#" + id).html(data.ServiceCount);
+                $("#gia_" + id).html((data.ServiceCount * data.Cost).toLocaleString());
+                $("#total").html(data.Total.toLocaleString());
+            }
+        });
+    }
+
+
+    function ReduceFromCart(id) {
+        $.ajax({
+            type: 'POST', url: '/Home/ReduceFromCart', data: { id: id }, success: function (data) {
+                $("#" + id).html(data.ServiceCount);
+                $("#gia_" + id).html((data.ServiceCount * data.Cost).toLocaleString());
+                $("#total").html(data.Total.toLocaleString());
+            }
+        });
+    }
+    function RemoveFromCart(id) {
+        $.ajax({
+            type: 'POST', url: '/Home/RemoveFromCart', data: { id: id }, success: function () {
+                location.reload(); // thực hiện tải lại trang
+            }
+        });
+    }
+
+</script>
+<!--End Ajax Process-->
+
+<br /><br /><br /><br /><br /><br /><br /><br />
+<div class="container">
+    <div style="padding-top : 10%">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead style="background-color:lightblue; color: white">
+                    <tr>
+                        <th style="text-align: center" colspan="2">
+                            Dịch Vụ
+                        </th>
+                        <th style="text-align: center">
+                            Tên Xe
+                        </th>
+                        <th style="text-align: center">
+                            Giá
+                        </th>
+                        <th style="text-align: center">
+                            Địa Điểm
+                        </th>
+                        <th style="text-align: center">
+                            Ngày Bắt Đầu
+                        </th>
+                        <th style="text-align: center">
+                            Ngày Kết Thúc
+                        </th>
+                        <th style="text-align: center">
+                            Số Lượng
+                        </th>
+                        <th style="text-align: center">
+                            Thành Tiền
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                @{
+                    double total = 0;
+                    List<CartItem> listCart = (List<CartItem>)Session["ShoppingCart"];
+                }
+                <tbody>
+                    @if (listCart != null)
+                    {
+                        foreach (var item in (List<CartItem>)Session["ShoppingCart"])
+                        {
+                    <tr>
+                        <td style="border-right: 0px">
+                            <a href="/Home/Detail/@item.productOrder.id"><img src="@Url.Content("~/Content/images/" + item.productOrder.Xe.HinhAnhs.First().URL)" alt="anh xe" width="80" /></a>&nbsp;
+                        </td>
+                        <td style="border-left: 0px">
+                            <a href="/Home/Detail/@item.productOrder.id" style="color: lightblue; font-family: sans-serif"><b>@item.productOrder.Ten</b></a>
+                        </td>
+                        <td>
+                            <div></div>
+                            <span class="cat" style="color: silver"> @item.productOrder.Xe.TenXe</span>
+                        </td>
+                        <td>
+                            <span class="cat" style="color:darkgoldenrod">₫@item.productOrder.Gia</span>
+
+                        </td>
+                        <td>
+                            <p class="price ml-auto" style="color: #EB455F"> @item.productOrder.DiaDiem.TenTinh</p>
+
+                        </td>
+                        <td>
+                            <p class="price ml-auto" style="font-size: 10px; color: gray"><b>@item.productOrder.NgayBD</b></p>
+
+                        </td>
+                        <td>
+                            <p class="price ml-auto" style="font-size: 10px; color: gray"><b>@item.productOrder.NgayKT</b></p>
+
+                        </td>
+                        <td style="width:100px">
+                            <span><input type="submit" onclick="ReduceFromCart('@item.productOrder.id')" value="-" /></span>
+                            <span class="badge" id="@item.productOrder.id">@item.Quantity</span>
+                            <span><input type="submit" onclick="AddToCart('@item.productOrder.id')" value="+" /></span>
+                        </td>
+                        <td>
+                            <span>₫</span>
+                            <span id="gia_@item.productOrder.id">
+                                @{
+                                    double value = (double)item.productOrder.Gia * item.Quantity;
+                                    total += value;
+                                    @value.ToString("##0,0")
+                                }
+                            </span>
+                        </td>
+                        <td>
+                            <input type="submit" class="btn-danger" onclick="RemoveFromCart('@item.productOrder.id')" value="Xóa" id="Delete" />
+                        </td>
+                    </tr>
+
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="10" class="text-right">
+                            <strong>Tổng Tiền: </strong>
+                            <strong style="color: orange; font-size: 20px">₫</strong>
+                            <strong id="total" style="color: orange; font-size: 20px">@total.ToString("##0,0")</strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p class="pull-right">
+                <a href="~/Home/ListService/">
+                    <input class="btn btn-info " style="color:white" type="button" value="Continue shopping" />
+                </a> &nbsp;
+                @if (Session["MaKH"] != null)
+                {
+                    <a href="~/Home/ThongTinDonDat/">
+                        <input class="btn btn-info " style="color:white" type="button" value="Order" />
+                    </a>
+                }
+                else
+                {
+                    <a>
+                        <input class="btn btn-info" type="button" onclick="alert('Vui lòng đăng nhập tài khoản của bạn ')" value="Order" />
+                    </a>
+                }
+            </p>
+        </div>
+    </div>
+</div>
+<style>
+    #Delete:hover {
+        background-color: white;
+        color: red;
+    }
+
+    #continue:hover {
+        background-color: lightcyan;
+    }
+
+    #checkout:hover {
+        background-color: beige;
+    }
+</style>

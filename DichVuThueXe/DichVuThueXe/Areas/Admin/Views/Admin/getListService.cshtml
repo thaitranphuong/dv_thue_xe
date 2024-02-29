@@ -1,0 +1,165 @@
+﻿@model Tuple<PagedList.IPagedList<DichVuThueXe.Models.DichVu>, string, string>
+@using PagedList.Mvc;
+@using DichVuThueXe.Models
+@{
+    ViewBag.Title = "getListService";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<script>
+
+    function showInfo() {
+        var searchParams = new URLSearchParams(window.location.search);
+        var ten = searchParams.get("ten");
+        giatri = $('#Select1').val();
+        $.ajax({
+            url: '/Admin/Admin/getListService',
+            type: "GET",
+            data: { ten: ten, giatri: giatri },
+            success: function (data) {
+                document.getElementById("Select1").value = giatri;
+                window.location.href = '/Admin/Admin/getListService?giatri=' + encodeURIComponent(giatri) + '&ten=' + encodeURIComponent(ten || '');;
+
+            }
+        });
+    }
+
+    // Gán giá trị của biến "giatri" cho thuộc tính "value" của thẻ select khi trang được tải lại.
+    window.onload = function () {
+        var searchParams = new URLSearchParams(window.location.search);
+        var giatri = searchParams.get("giatri");
+        var ten = searchParams.get("ten");
+        if (giatri !== null) {
+            document.getElementById("Select1").value = giatri;
+        }
+        if (ten !== null) {
+            document.getElementById("timdichvu").value = ten;
+        }
+    }
+
+
+    function showSearch() {
+        var search = $('#timdichvu').val();
+        $.ajax({
+            url: '/Admin/Admin/getListService',
+            type: "GET",
+            data: { ten: search },
+            success: function (data) {
+                document.getElementById("timdichvu").value = search;
+                window.location.href = '/Admin/Admin/getListService?ten=' + encodeURIComponent(search);
+            }
+        });
+    }
+</script>
+
+<style>
+    thead, th {
+        background-color: lightblue;
+    }
+
+    table, th, td {
+        text-align: center;
+    }
+</style>
+<div class="row" style="padding-top:2%">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="col-lg-12" style="padding-left:2%">
+                <h1 class="page-header" style="color: lightblue;">DANH SÁCH DỊCH VỤ</h1>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <p style="padding-left: 3%;">
+                        <a href="~/Admin/Admin/CreateService" style="display: inline; color: white"><button class="btn btn-primary" type="button" style="padding: 10px 20px; font-size: 16px; border-radius: 3px ">Thêm Dịch Vụ</button></a>
+                    </p>
+
+                    <div class="search">
+                        <input id="timdichvu" class="search__input" type="text" placeholder="Tìm tên dịch vụ">
+                        <button id="btn-timkiem" class="btn btn-bitbucket" onclick="showSearch()"><img src="~/Content/image/search.png" alt="search" width="15"></button>
+                    </div>
+
+                    <div style=" padding-left: 60%;">
+                        <label for="Select1" style="font-family: 'Cambria Math'; font-size:20px"><b>Sắp xếp theo: &nbsp;</b></label>
+                        <select id="Select1" onchange="showInfo()">
+                            <option value="macdinh" selected>Mặc định</option>
+                            <option value="tangdan">Giá tăng dần</option>
+                            <option value="giamdan">Giá giảm dần</option>
+                            <option value="gannhat">Khoảng cách gần nhất</option>
+                            <option value="batdau">Ngày thuê sớm nhất</option>
+                        </select>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="color:white">
+                                    Tên Dịch Vụ
+                                </th>
+                                <th style="color:white">
+                                    Giá
+                                </th>
+                                <th style="color:white">
+                                    Ngày Bắt Đầu
+                                </th>
+                                <th style="color:white">
+                                    Ngày Kết Thúc
+                                </th>
+                                <th style="color:white">
+                                    Địa Điểm
+                                </th>
+                                <th style="color:white">
+                                    Xe
+                                </th>
+                                <th colspan="2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item1)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Ten)
+                                    </td>
+                                    <td>
+                                        ₫@Html.DisplayFor(modelItem => item.Gia)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NgayBD)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NgayKT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DiaDiem.TenTinh)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MaXe)
+                                    </td>
+                                    <td style="text-align: right">
+                                        <form action="@Url.Action("EditListService", new { id = item.id })" method="get">
+                                            <button style="padding: 10px 20px; font-size: 16px; border-radius: 3px; background-color: lavender; border: 0px" type="submit">Edit</button>
+                                        </form>
+                                    </td>
+                                     <td style="text-align: left">
+                                        <form action="@Url.Action("DeleteListService", new { id = item.id })" method="get">
+                                            <button style="padding: 10px 20px; font-size: 16px; border-radius: 3px; background-color: lavender; border: 0px" type="submit">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div style="margin-left:20px;">
+                        @Html.PagedListPager(Model.Item1, page => Url.Action("getListService", new { ten = Model.Item2, giatri = Model.Item3, page }))
+                    </div>
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.row -->
+</div>
+

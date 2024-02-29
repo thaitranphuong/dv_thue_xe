@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Dịch Vụ Thuê Xe </title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Assets/dist/css/dvtx - Copy.css" rel="stylesheet">
+    <link href="~/Assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/dist/css/Graphic.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="header">
+        <div class="wrapper-nav">
+            <nav>
+                <div class="nav-top">
+                    <div class="nav-top-left">
+                        <ul class="ul-nav">
+                            <li class="li-nav-top"><a href="#"><img src="~/Content/image/email.png" width="20" />abcd@xedulich.vn</a></li>
+                            <li class="li-nav-top"><a href="#"><img src="~/Content/image/dienthoai.png" width="20" />0979.756.123</a></li>
+                            <li class="li-nav-top"><a href="#"><img src="~/Content/image/zalo.png" width="20" />Zalo 0979.756.123</a></li>
+                            <li class="li-nav-top"><a href="#"><img src="~/Content/image/diachi.png" width="25" />Xuân Khánh-Ninh Kiều-Cần Thơ </a></li>
+                        </ul>
+                    </div>
+                    <div class="nav-top-right">
+                        <ul class="ul-nav">
+                            @if (Session["MaKH"] != null)
+                            {
+                                <li class="li-nav-top"><img src="~/images/base/user.svg" width="20px" />@Session["TenKH"]</li>
+                                <li class="li-nav-top"><a href="~/Home/Logout"><img src="~/Content/image/logout.png" width="15px" />Đăng xuất</a> </li>
+                                <li class="li-nav-top"><a href="~/Home/LichSuDatHang"><img src="~/Content/images/dathang.png" width="15px" />Lịch sử đặt hàng</a> </li>
+                            }
+                            else
+                            {
+                                <li class="li-nav-top"><a href="~/Home/Login"><img src="~/Content/image/login.png" width="15px" /> Đăng Nhập</a> </li>
+                                <li class="li-nav-top"><a href="~/Home/Register"><img src="~/images/base/register.png" width="15px" /> Đăng Ký Tài Khoản</a> </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="nav-below">
+                    <a class="site-logo" href="~/Home/Index">
+                        <img src="~/Content/image/car-logo.png" width="150" />
+                    </a>
+                    <div class="nav-below-right">
+                        <ul class="ul-nav">
+                            <li class="li-nav-below">@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li class="li-nav-below">@Html.ActionLink("Product", "ListService", "Home")</li>
+                            <li class="li-nav-below">@Html.ActionLink("Introduce", "Introduce", "Home")</li>
+                            <li class="li-nav-below">@Html.ActionLink("Cart", "ShoppingCart", "Home")</li>
+                            <li class="li-nav-below">@Html.ActionLink("Review", "DanhGia", "Home")</li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <footer class="new_footer_area bg_color">
+        <div class="new_footer_top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Get in Touch</h3>
+                            <p>Don’t miss any updates of our new templates and extensions.!</p>
+                            <form action="#" class="f_subscribe_two mailchimp" method="post" novalidate="true" _lpchecked="1">
+                                <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
+                                <button class="btn btn_get btn_get_two" type="submit">Subscribe</button>
+                                <p class="mchimp-errmessage" style="display: none;"></p>
+                                <p class="mchimp-sucmessage" style="display: none;"></p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Download</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">Company</a></li>
+                                <li><a href="#">Android App</a></li>
+                                <li><a href="#">ios App</a></li>
+                                <li><a href="#">Desktop</a></li>
+                                <li><a href="#">Projects</a></li>
+                                <li><a href="#">My tasks</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Help</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Term &amp; conditions</a></li>
+                                <li><a href="#">Reporting</a></li>
+                                <li><a href="#">Documentation</a></li>
+                                <li><a href="#">Support Policy</a></li>
+                                <li><a href="#">Privacy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_bg">
+                <div class="footer_bg_one"></div>
+                <div class="footer_bg_two"></div>
+            </div>
+        </div>
+        <div class="footer_bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-sm-7">
+                        <p class="mb-0 f_400">© cakecounter Inc~/Assets 2019 All rights reserved.</p>
+                    </div>
+                    <div class="col-lg-6 col-sm-5 text-right">
+                        <p>Made with <i class="icon_heart"></i> in <a href="http://cakecounter.com" target="_blank">CakeCounter</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

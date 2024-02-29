@@ -1,0 +1,86 @@
+﻿@model DichVuThueXe.Models.KhachHang
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Đăng Nhập</title>
+    <meta name="Keywords" content="Bootstrap Registration Form, Responsive Registration Form Templates, Bootstrap Registration Form Templates." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="~/Assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/Assets/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;1,200&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2975528604039680"
+             data-ad-slot="4597062238"></ins>
+        <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <div class="container box">
+        <div class="row no-gutters">
+            <div class="col-md-6 form">
+                <div class="form_container">
+                    <h1>ĐĂNG NHẬP</h1>
+                    @if (ViewBag.ThongBao != null)
+                    {
+                        <div class="form-group">
+                            <h3>@ViewBag.ThongBao</h3>
+                        </div>
+                    }
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="text">
+                                    Tài Khoản:
+                                </label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tài Khoản" } })
+                                    @Html.ValidationMessageFor(model => model.TaiKhoan, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="text">
+                                    Mật Khẩu:
+                                </label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mật Khẩu" } })
+                                    @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-button">Đăng Nhập</button>
+                        </fieldset>
+
+                    }
+                </div>
+                <div class="form-group">
+                    @Html.ActionLink("Trở Về Trang Chủ", "Index", "Home")
+                </div>
+                <div class="form-group">
+                    @Html.ActionLink("Đăng ký Tài khoản", "Register", "Home")
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img class="img-fluid" src="~/images/base/web_designing.png">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

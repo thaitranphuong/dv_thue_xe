@@ -1,0 +1,125 @@
+﻿@using DichVuThueXe.Models
+@{
+    ViewBag.Title = "ThongTinDonDat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br /><br /><br /><br />
+<div class="container " style="padding-top: 8%">
+    <h2 class="text text-center">Thông Tin Đơn Đặt</h2>
+    <div>
+        <div class="row">
+            <p class="col-sm-3" id="cot">Mã đơn đặt:</p>
+            <p>Ngày đặt: @DateTime.Now.ToString()</p>
+
+        </div>
+        <p style="font-weight:bold">Trạng thái thanh toán: False</p>
+        <h4 style="font-weight:bold">Thông tin khách hàng:</h4>
+        <div style="margin-left:2%">
+            @if (Session["MaKH"] != null)
+            {
+                <p>
+                    Mã khách hàng: @Session["MaKH"]
+                </p>
+                <p>
+                    Tên khách hàng: @Session["TenKH"]
+                </p>
+                <p>
+                    Căn cước công dân: @Session["CMND"]
+                </p>
+                <p>
+                    Địa chỉ: @Session["DiaChi"]
+                </p>
+                <p>
+                    Số điện thoại: @Session["SDT"]
+                </p>
+            }
+        </div>
+    </div>
+    <h4 style="font-weight:bold">Thông tin đơn đặt</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Tên dịch vụ
+                </th>
+                <th>
+                    Tên xe
+                </th>
+                <th>
+                    Mã xe
+                </th>
+                <th>
+                    Giá
+                </th>
+                <th>
+                    Địa điểm
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Tổng cộng
+                </th>
+            </tr>
+        </thead>
+        @{
+            double total = 0;
+            List<CartItem> listCart = (List<CartItem>)Session["ShoppingCart"];
+        }
+        <tbody>
+            @if (listCart != null)
+            {
+                foreach (var item in (List<CartItem>)Session["ShoppingCart"])
+                {
+                    <tr>
+                        <td>
+                            @item.productOrder.Ten
+                        </td>
+                        <td>
+                            @item.productOrder.Xe.TenXe
+                        </td>
+                        <td>
+                            @item.productOrder.Xe.MaXe
+
+                        </td>
+                        <td>
+                            ₫@item.productOrder.Gia
+                        </td>
+                        <td>
+                            @item.productOrder.DiaDiem.TenTinh
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @{
+                                double value = (double)item.productOrder.Gia * item.Quantity;
+                                total += value;
+                                @value.ToString("N0")
+
+                            }
+                        </td>
+
+                    </tr>
+
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" class="text-right">
+                    <strong>Total: ₫@total.ToString("N0")</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="pull-right">
+        <a href="~/Home/PayNow/">
+            <input class="btn btn-info " style="color:white" type="button" value="Trả Trước" />
+        </a>
+        <a href="~/Home/PayLast/">
+            <input class="btn btn-info " style="color:white" type="button" value="Trả Sau" />
+        </a>
+      
+    </div>
+</div>

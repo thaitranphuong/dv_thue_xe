@@ -1,0 +1,14 @@
+﻿.nav-top {
+    background-color: #BAD7E9;
+}
+
+.nav-below {
+    background-color: #FCFFE7;
+}
+* {
+    box-sizing: border-box
+}
+
+h2 {
+    text-align: center;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0de3d85e4f4743ffa50deabe80179e51" Name="Diagram1">
+        <EntityTypeShape EntityType="QL_DVThueXeModel.DiaDiem" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.DichVu" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.DonDat" Width="1.5" PointX="6" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.HinhAnh" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.KhachHang" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.NhanVien" Width="1.5" PointX="3.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.sysdiagram" Width="1.5" PointX="5.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.Xe" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DVThueXeModel.ChiTietDonDat" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_DichVu_DiaDiem" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_ChiTietDonDat_DichVu" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_DichVu_Xe" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_ChiTietDonDat_DonDat" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_DonDat_KhachHang" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_DonDat_NhanVien" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_DonDat_Xe" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DVThueXeModel.FK_HinhAnh_Xe" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

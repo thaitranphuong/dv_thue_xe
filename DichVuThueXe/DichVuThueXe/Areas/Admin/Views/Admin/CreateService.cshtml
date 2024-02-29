@@ -1,0 +1,101 @@
+﻿@model DichVuThueXe.Models.DichVu
+
+@{
+    ViewBag.Title = "CreateService";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+</style>
+    <div class="row" style="margin-left: 2%; padding-top: 2%">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="font-weight:bold; font-size:20px; color: cornflowerblue">
+                    THÔNG TIN DỊCH VỤ MỚI
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @using (Html.BeginForm("CreateService", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">
+                                            Tên Dịch Vụ
+                                        </label>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên Dịch Vụ" } })
+                                            @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">
+                                            Xe
+                                        </label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.MaXe, ViewBag.MaXe as SelectList, "--Chọn Xe--", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.MaXe, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">
+                                            Địa Điểm
+                                        </label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.MaTinh, ViewBag.MaTinh as SelectList, "--Chọn Địa Điểm--", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.MaTinh, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">
+                                            Ngày Bắt Đầu
+                                        </label>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.NgayBD, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ngày Bắt Đầu" } })
+                                            @Html.ValidationMessageFor(model => model.NgayBD, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">
+                                            Ngày Kết Thúc
+                                        </label>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.NgayKT, new { htmlAttributes = new { @class = "form-control", @placeholder = " Ngày Kết Thúc" } })
+                                            @Html.ValidationMessageFor(model => model.NgayKT, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">
+                                            Giá
+                                        </label>
+                                        <div class="col-md-10">
+                                            <div class="form-group input-group">
+                                                <span class="input-group-addon">₫&nbsp;</span>
+                                                @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control", @placeholder = "Giá" } })
+                                                @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+                                                <span class="input-group-addon">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                                            <a href="~/Admin/Admin/getListService"><input type="button" value="Hủy" class="btn btn-primary" /></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>

@@ -1,0 +1,113 @@
+﻿@model Tuple<PagedList.IPagedList<DichVuThueXe.Models.DonDat>, string>
+@using PagedList.Mvc;
+@using DichVuThueXe.Models
+@{
+    ViewBag.Title = "DonHangDaDuyet";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<script>
+    window.onload = function () {
+        var searchParams = new URLSearchParams(window.location.search);
+        var id = searchParams.get("id");
+        if (id !== null) {
+            document.getElementById("timdichvu").value = id;
+        }
+    }
+
+    function showSearch() {
+        var search = $('#timdichvu').val();
+        $.ajax({
+            url: '/Admin/Admin/DonHangDaDuyet',
+            type: "GET",
+            data: { id: search },
+            success: function (data) {
+                document.getElementById("timdichvu").value = search;
+                window.location.href = '/Admin/Admin/DonHangDaDuyet?id=' + encodeURIComponent(search);
+            }
+        });
+    }
+</script>
+<style>
+
+    table, th, td {
+        border-style: none;
+        border-collapse: collapse;
+        padding: 10px;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+
+    #hover1 {
+        background-color: coral;
+    }
+
+    #hover2 {
+        background-color: white;
+    }
+
+    #hover1:hover {
+        background-color: orangered;
+    }
+
+    #hover2:hover {
+        background-color: gainsboro;
+    }
+
+    #body {
+        background-color: white;
+    }
+</style>
+
+<div id="body">
+    <h1 style="color: blue; margin-left: 20%">ĐƠN HÀNG ĐÃ DUYỆT</h1>
+    <div style="padding-left: 10%; padding-right: 10% ">
+        <div class="search" style="padding-left: 50% ">
+            <input id="timdichvu" class="search__input" type="text" placeholder="Tìm mã đơn hàng">
+            <button id="btn-timkiem" class="btn btn-bitbucket" onclick="showSearch()"><img src="~/Content/image/search.png" alt="search" width="15"></button>
+        </div>
+        @foreach (var item in Model.Item1)
+        {
+            <table>
+                <thead style="border-top: 1px solid black; background-color: lightblue">
+                    <tr>
+                        <th style="text-align:center; color: white" colspan="2">Khách Hàng: @item.KhachHang.TenKH</th>
+                        <th style="text-align: center; color: white">Mã đơn hàng: @item.id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th style="text-align: center; font-size: 15px">
+                            @item.Xe.DichVus.First().Ten
+                        </th>
+                        <th>
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            @item.NgayDat.ToString() &nbsp;|
+                        </th>
+                        <th>
+                            <div style="color: lawngreen">Đã duyệt</div>
+                        </th>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td rowspan="2"><a href="/Home/Detail/@item.Xe.DichVus.First().id"><img src="@Url.Content("~/Content/images/" + item.Xe.HinhAnhs.First().URL)" alt="anh xe" width="100" style="border: 1px solid black; border-radius: 1px" /></a></td>
+                        <td style="color: silver" colspan="2">@item.Xe.TenXe</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; color: orange"></td>
+                        <td style="text-align: right">
+                            <img src="~/Content/images/logo.png" />
+                            Thành tiền:&nbsp;
+                            <h4 style="color: orange; display:inline">₫@string.Format("{0:#,##0}", item.TongTien)</h4>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+    </div>
+    <div style="margin-left:20px;">
+        @Html.PagedListPager(Model.Item1, page => Url.Action("DonHangDaDuyet", new { id = Model.Item2, page }))
+    </div>
+</div>

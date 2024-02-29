@@ -1,0 +1,231 @@
+﻿@model Tuple<PagedList.IPagedList<DichVuThueXe.Models.DichVu>, string, string>
+@using PagedList.Mvc;
+@using DichVuThueXe.Models
+@{
+    ViewBag.Title = "ListService";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Carbook</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Assets_Service/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="~/Assets_Service/css/animate.css">
+
+    <link rel="stylesheet" href="~/Assets_Service/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Assets_Service/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Assets_Service/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="~/Assets_Service/css/aos.css">
+
+    <link rel="stylesheet" href="~/Assets_Service/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="~/Assets_Service/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="~/Assets_Service/css/jquery.timepicker.css">
+
+
+    <link rel="stylesheet" href="~/Assets_Service/css/flaticon.css">
+    <link rel="stylesheet" href="~/Assets_Service/css/icomoon.css">
+    <link rel="stylesheet" href="~/Assets_Service/css/style.css">
+    <!--Ajax Process-->
+    @{
+        if (Session["ShoppingCart"] != null)
+        {
+            int cartcount = 0;
+            List<CartItem> ls = (List<CartItem>)Session["ShoppingCart"];
+            foreach (CartItem item in ls)
+            {
+                cartcount += item.Quantity;
+            }
+            ViewBag.count = cartcount;
+        }
+    }
+
+    <script>
+        function AddToCart(id) {
+            if (id == 0) {
+                alert("Đã hết xe!");
+                id = null;
+            }
+            $.ajax({
+                type: 'POST', url: '/Home/AddToCart', data: { id: id }, success: function (data) {
+                    $("#Cart_Amount").html(data.ItemAmount);
+                }
+            });
+        }
+
+
+        function showInfo() {
+            var searchParams = new URLSearchParams(window.location.search);
+            var ten = searchParams.get("ten");
+            giatri = $('#Select1').val();
+            $.ajax({
+                url: '/Home/ListService',
+                type: "GET",
+                data: { ten: ten, giatri: giatri },
+                success: function (data) {
+                    document.getElementById("Select1").value = giatri;
+                    window.location.href = '/Home/ListService?giatri=' + encodeURIComponent(giatri) + '&ten=' + encodeURIComponent(ten || '');;
+
+                }
+            });
+        }
+
+        // Gán giá trị của biến "giatri" cho thuộc tính "value" của thẻ select khi trang được tải lại.
+        window.onload = function () {
+            var searchParams = new URLSearchParams(window.location.search);
+            var giatri = searchParams.get("giatri");
+            var ten = searchParams.get("ten");
+            if (giatri !== null) {
+                document.getElementById("Select1").value = giatri;
+            }
+            if (ten !== null) {
+                document.getElementById("timdichvu").value = ten;
+            }
+        }
+
+
+        function showSearch() {
+            var search = $('#timdichvu').val();
+            $.ajax({
+                url: '/Home/ListService',
+                type: "GET",
+                data: { ten: search },
+                success: function (data) {
+                    document.getElementById("timdichvu").value = search;
+                    window.location.href = '/Home/ListService?ten=' + encodeURIComponent(search);
+                }
+            });
+        }
+
+    </script>
+    <!--End Ajax Process-->
+</head>
+
+<body>
+    <br /><br /><br /><br /><br /><br />
+    <main class="" style="padding-top:5%">
+
+        <section class="ftco-section bg-light">
+
+            <div id="txtInfo" class="container">
+
+                <p style="margin-right: 10px; position: fixed; right: 0;">
+                    <button class="btn btn-primary" type="button" onclick="window.open('/Home/ShoppingCart','_self')">
+                        <i class="fas fa-shopping-cart"></i> Giỏ hàng <span class="badge" id="Cart_Amount">@ViewBag.count</span>
+                    </button>
+                </p>
+
+                <div class="search" style="margin-right:20%; display: inline-block">
+                    <input id="timdichvu" class="search__input" type="text" placeholder="Tìm tên dịch vụ">
+                    <button id="btn-timkiem" class="btn btn-bitbucket" onclick="showSearch()"><img src="~/Content/image/search.png" alt="search" width="15"></button>
+                </div>
+
+                <div style="display: inline-block;">
+                    <label for="Select1" style="font-family: 'Cambria Math'; font-size:20px"><b>Sắp xếp theo: &nbsp;</b></label>
+                    <select id="Select1" onchange="showInfo()">
+                        <option value="macdinh" selected>Mặc định</option>
+                        <option value="tangdan">Giá tăng dần</option>
+                        <option value="giamdan">Giá giảm dần</option>
+                        <option value="gannhat">Khoảng cách gần nhất</option>
+                        <option value="batdau">Ngày thuê sớm nhất</option>
+                    </select>
+                </div>
+
+                <br /><br />
+
+                <div class="container">
+                    <div class="row">
+                        @foreach (var item in Model.Item1)
+                        {
+                            <div class="col-md-4">
+                                <div class="car-wrap rounded ftco-animate">
+                                    <div class="img rounded d-flex align-items-end" style="background-image: url(@Url.Content("/Content/images/" + item.Xe.HinhAnhs.First().URL));">
+                                    </div>
+                                    <div class="text">
+                                        <h2 class="mb-0">
+                                            <a href="/Home/Detail/@item.id" style="color: blue; font-family:sans-serif"><b>@item.Ten</b></a>
+                                        </h2>
+                                        <div class="d-flex mb-3">
+                                            <span class="cat" style="color: silver">@item.Xe.TenXe</span>
+                                        </div>
+                                        <div class="d-flex mb-3">
+                                            <span class="cat" style="color: #EB455F">
+                                                Điểm đến
+                                                <img src="~/Content/images/destination.png" width="10px" />
+                                            </span>
+                                            <p class="price ml-auto" style="color: #EB455F">@item.DiaDiem.TenTinh</p>
+                                        </div>
+                                        <div class="d-flex mb-3">
+                                            <span class="cat" style="color: turquoise">Ngày bắt đầu</span>
+                                            <p class="price ml-auto" style="font-size: 10px; color: gray">@item.NgayBD</p>
+                                        </div>
+                                        <div class="d-flex mb-3">
+                                            <span class="cat" style="color: turquoise">Ngày hết hạn</span>
+                                            <p class="price ml-auto" style="font-size: 10px; color: gray">@item.NgayKT</p>
+                                        </div>
+                                        <div class="d-flex mb-3">
+                                            <span class="cat" style="color:darkgoldenrod">₫@item.Gia</span>
+                                            @{int maDV = 0;}
+                                            @if (item.Xe.TrangThai == true)
+                                            {
+                                                <p class="price ml-auto" style="color: green">Còn xe</p>
+                                                maDV = item.id;
+
+                                            }
+                                            @if (item.Xe.TrangThai == false)
+                                            {
+                                                <p class="price ml-auto" style="color: red">Đã hết xe</p>
+                                            }
+                                        </div>
+                                        <p class="d-flex mb-0 d-block">
+                                            <input type="submit" class="btn btn-primary py-2 mr-1" onclick="AddToCart('@maDV')" value="Đặt xe" />
+                                            @Html.ActionLink("Chi tiết", "Detail", new { id = item.id }, htmlAttributes: new { @class = "btn btn-secondary py-2 ml-1" })
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+
+                    <div style="margin-left:20px;">
+                        @Html.PagedListPager(Model.Item1, page => Url.Action("ListService", new { ten = Model.Item2, giatri = Model.Item3, page }))
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+        <!-- loader -->
+        <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
+
+        <script src="~/Assets_Service/js/jquery.min.js"></script>
+        <script src="~/Assets_Service/js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="~/Assets_Service/js/popper.min.js"></script>
+        <script src="~/Assets_Service/js/bootstrap.min.js"></script>
+        <script src="~/Assets_Service/js/jquery.easing.1.3.js"></script>
+        <script src="~/Assets_Service/js/jquery.waypoints.min.js"></script>
+        <script src="~/Assets_Service/js/jquery.stellar.min.js"></script>
+        <script src="~/Assets_Service/js/owl.carousel.min.js"></script>
+        <script src="~/Assets_Service/js/jquery.magnific-popup.min.js"></script>
+        <script src="~/Assets_Service/js/aos.js"></script>
+        <script src="~/Assets_Service/js/jquery.animateNumber.min.js"></script>
+        <script src="~/Assets_Service/js/bootstrap-datepicker.js"></script>
+        <script src="~/Assets_Service/js/jquery.timepicker.min.js"></script>
+        <script src="~/Assets_Service/js/scrollax.min.js"></script>
+        <script src="~/Assets_Service/https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+        <script src="~/Assets_Service/js/google-map.js"></script>
+        <script src="~/Assets_Service/js/main.js"></script>
+    </main>
+
+</body>
+</html>
+
+
+

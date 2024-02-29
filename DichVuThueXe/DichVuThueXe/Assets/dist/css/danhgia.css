@@ -1,0 +1,37 @@
+﻿.nvbody {
+    background-image: url("https://t3.ftcdn.net/jpg/04/12/82/16/360_F_412821610_95RpjzPXCE2LiWGVShIUCGJSktkJQh6P.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.nvtable {
+    display: flex;
+    justify-content: center;
+    border-collapse: separate;
+    border-spacing: 30px 30px;
+}
+
+.nvimg {
+    width: 200px;
+    height: 200px;
+}
+
+.border {
+    border: 2px dashed black;
+    border-collapse: separate;
+    border-spacing: 30px 30px;
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+}
+.quote {
+    display: flex;
+    justify-content: center;
+}
+.display {
+    border: 2px solid gray;
+    border-spacing: 30px 30px;
+    padding: 20px 20px;
+    font-size: 30px;
+    font-family: 'Times New Roman';
+}

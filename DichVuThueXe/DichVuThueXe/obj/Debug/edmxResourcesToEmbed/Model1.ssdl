@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QL_DVThueXeModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'QL_DVThueXe.dbo.ChiTietDonDat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ChiTietDonDat">
+    <Key>
+      <PropertyRef Name="idDV" />
+      <PropertyRef Name="idDonDat" />
+    </Key>
+    <Property Name="VAT" Type="nvarchar" MaxLength="10" />
+    <Property Name="idDV" Type="int" Nullable="false" />
+    <Property Name="idDonDat" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DiaDiem">
+    <Key>
+      <PropertyRef Name="MaTinh" />
+    </Key>
+    <Property Name="MaTinh" Type="tinyint" Nullable="false" />
+    <Property Name="TenTinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="KhoangCach" Type="int" />
+  </EntityType>
+  <EntityType Name="DichVu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ten" Type="nvarchar" MaxLength="100" />
+    <Property Name="Gia" Type="float" />
+    <Property Name="NgayBD" Type="date" />
+    <Property Name="NgayKT" Type="date" />
+    <Property Name="MaTinh" Type="tinyint" Nullable="false" />
+    <Property Name="MaXe" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DonDat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NgayDat" Type="date" />
+    <Property Name="TongTien" Type="float" />
+    <Property Name="TrangThaiThanhToan" Type="bit" />
+    <Property Name="MaNV" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaKH" Type="int" Nullable="false" />
+    <Property Name="MaXe" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HinhAnh">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="URL" Type="nvarchar" MaxLength="300" />
+    <Property Name="MaXe" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="KhachHang">
+    <Key>
+      <PropertyRef Name="MaKH" />
+    </Key>
+    <Property Name="MaKH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenKH" Type="nvarchar" MaxLength="50" />
+    <Property Name="CMND" Type="nvarchar" MaxLength="30" />
+    <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
+    <Property Name="SDT" Type="nvarchar" MaxLength="10" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="TaiKhoan" Type="nvarchar" MaxLength="100" />
+    <Property Name="MatKhau" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="NhanVien">
+    <Key>
+      <PropertyRef Name="MaNV" />
+    </Key>
+    <Property Name="MaNV" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="TenNV" Type="nvarchar" MaxLength="50" />
+    <Property Name="MatKhau" Type="nvarchar" MaxLength="10" />
+    <Property Name="QuyenSD" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Xe">
+    <Key>
+      <PropertyRef Name="MaXe" />
+    </Key>
+    <Property Name="MaXe" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="TenXe" Type="nvarchar" MaxLength="50" />
+    <Property Name="SoCho" Type="tinyint" />
+    <Property Name="TrangThai" Type="bit" />
+  </EntityType>
+  <Association Name="FK_ChiTietDonDat_DichVu">
+    <End Role="DichVu" Type="Self.DichVu" Multiplicity="1" />
+    <End Role="ChiTietDonDat" Type="Self.ChiTietDonDat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DichVu">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ChiTietDonDat">
+        <PropertyRef Name="idDV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChiTietDonDat_DonDat">
+    <End Role="DonDat" Type="Self.DonDat" Multiplicity="1" />
+    <End Role="ChiTietDonDat" Type="Self.ChiTietDonDat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DonDat">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ChiTietDonDat">
+        <PropertyRef Name="idDonDat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DichVu_DiaDiem">
+    <End Role="DiaDiem" Type="Self.DiaDiem" Multiplicity="1" />
+    <End Role="DichVu" Type="Self.DichVu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DiaDiem">
+        <PropertyRef Name="MaTinh" />
+      </Principal>
+      <Dependent Role="DichVu">
+        <PropertyRef Name="MaTinh" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DichVu_Xe">
+    <End Role="Xe" Type="Self.Xe" Multiplicity="1" />
+    <End Role="DichVu" Type="Self.DichVu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Xe">
+        <PropertyRef Name="MaXe" />
+      </Principal>
+      <Dependent Role="DichVu">
+        <PropertyRef Name="MaXe" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DonDat_KhachHang">
+    <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+    <End Role="DonDat" Type="Self.DonDat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KhachHang">
+        <PropertyRef Name="MaKH" />
+      </Principal>
+      <Dependent Role="DonDat">
+        <PropertyRef Name="MaKH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DonDat_NhanVien">
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
+    <End Role="DonDat" Type="Self.DonDat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhanVien">
+        <PropertyRef Name="MaNV" />
+      </Principal>
+      <Dependent Role="DonDat">
+        <PropertyRef Name="MaNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DonDat_Xe">
+    <End Role="Xe" Type="Self.Xe" Multiplicity="1" />
+    <End Role="DonDat" Type="Self.DonDat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Xe">
+        <PropertyRef Name="MaXe" />
+      </Principal>
+      <Dependent Role="DonDat">
+        <PropertyRef Name="MaXe" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HinhAnh_Xe">
+    <End Role="Xe" Type="Self.Xe" Multiplicity="1" />
+    <End Role="HinhAnh" Type="Self.HinhAnh" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Xe">
+        <PropertyRef Name="MaXe" />
+      </Principal>
+      <Dependent Role="HinhAnh">
+        <PropertyRef Name="MaXe" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QL_DVThueXeModel1StoreContainer">
+    <EntitySet Name="DiaDiem" EntityType="Self.DiaDiem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DichVu" EntityType="Self.DichVu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DonDat" EntityType="Self.DonDat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HinhAnh" EntityType="Self.HinhAnh" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Xe" EntityType="Self.Xe" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChiTietDonDat" EntityType="Self.ChiTietDonDat" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ChiTietDonDat].[VAT] AS [VAT], 
+    [ChiTietDonDat].[idDV] AS [idDV], 
+    [ChiTietDonDat].[idDonDat] AS [idDonDat]
+    FROM [dbo].[ChiTietDonDat] AS [ChiTietDonDat]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_ChiTietDonDat_DichVu" Association="Self.FK_ChiTietDonDat_DichVu">
+      <End Role="DichVu" EntitySet="DichVu" />
+      <End Role="ChiTietDonDat" EntitySet="ChiTietDonDat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChiTietDonDat_DonDat" Association="Self.FK_ChiTietDonDat_DonDat">
+      <End Role="DonDat" EntitySet="DonDat" />
+      <End Role="ChiTietDonDat" EntitySet="ChiTietDonDat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DichVu_DiaDiem" Association="Self.FK_DichVu_DiaDiem">
+      <End Role="DiaDiem" EntitySet="DiaDiem" />
+      <End Role="DichVu" EntitySet="DichVu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DichVu_Xe" Association="Self.FK_DichVu_Xe">
+      <End Role="Xe" EntitySet="Xe" />
+      <End Role="DichVu" EntitySet="DichVu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DonDat_KhachHang" Association="Self.FK_DonDat_KhachHang">
+      <End Role="KhachHang" EntitySet="KhachHang" />
+      <End Role="DonDat" EntitySet="DonDat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DonDat_NhanVien" Association="Self.FK_DonDat_NhanVien">
+      <End Role="NhanVien" EntitySet="NhanVien" />
+      <End Role="DonDat" EntitySet="DonDat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DonDat_Xe" Association="Self.FK_DonDat_Xe">
+      <End Role="Xe" EntitySet="Xe" />
+      <End Role="DonDat" EntitySet="DonDat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HinhAnh_Xe" Association="Self.FK_HinhAnh_Xe">
+      <End Role="Xe" EntitySet="Xe" />
+      <End Role="HinhAnh" EntitySet="HinhAnh" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
